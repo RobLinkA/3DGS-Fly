@@ -1,15 +1,14 @@
 // ============================================================
-// 3DGS-Gamepad —— SuperSplat 3DGS 查看器（手柄控制版）Electron 主进程
+// 3DGS-Fly —— SuperSplat 3DGS 查看器（RC-N1 遥控版）Electron 主进程
 // ------------------------------------------------------------
 // 设计要点：
-//  1. 内置本地静态服务器，固定 8360 端口（被占用时自动切换随机端口），
+//  1. 内置本地静态服务器，固定 3835 端口（被占用时自动切换随机端口），
 //     通过 http://127.0.0.1 加载 web/ 目录下的构建产物。
 //     采用 HTTP 而非 file:// 协议，避免 wasm / fetch / ES Module / Service
 //     Worker 在 file:// 下的加载失败与跨域限制。
-//  2. 固定端口保证 localStorage（手柄配置持久化）的 origin 稳定，
-//     手柄键位配置跨会话保留。
+//  2. 固定端口保证 localStorage 配置持久化的 origin 稳定，跨会话保留。
 //  3. 渲染进程保持沙箱化（sandbox + contextIsolation + 无 Node 集成），
-//     页面无 IPC 需求，配置与手柄读取全部走浏览器标准 API。
+//     RC-N1 读取由主进程 spawn PowerShell 桥接脚本完成，经 IPC 转发给渲染层。
 // ============================================================
 
 const { app, BrowserWindow, shell, dialog, ipcMain, session } = require('electron');

@@ -39,7 +39,7 @@ if (!fs.existsSync(SRC)) {
     process.exit(1);
 }
 
-// 直接覆盖拷贝，不先删除 web 目录。WorkBuddy 环境的 fs.rmSync 会被安全删除
+// 直接覆盖拷贝，不先删除 web 目录。某些 Windows 环境的 fs.rmSync 会被安全删除
 // 机制拦截（走回收站，中文路径/大批量下易超时失败），失败后还会残留文件锁导致
 // 后续 copyFileSync 报 EPERM。覆盖拷贝本身就能覆盖同名文件，旧 hash 文件残留
 // 不影响运行，因此这里不做任何删除操作。

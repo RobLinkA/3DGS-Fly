@@ -1,0 +1,56 @@
+{
+  "name": "3dgs-fly",
+  "version": "1.0.0",
+  "description": "3DGS-Fly —— DJI RC-N1 遥控 3DGS 飞行查看器（Electron 桌面封装）",
+  "author": {
+    "name": "RobLinkA",
+    "url": "https://github.com/RobLinkA"
+  },
+  "main": "main.js",
+  "private": true,
+  "scripts": {
+    "copy:dist": "node copy-dist.js",
+    "start": "npm run copy:dist && electron .",
+    "build:exe": "npm run copy:dist && electron-builder --win portable",
+    "build:installer": "npm run copy:dist && electron-builder --win nsis"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.fly.3dgs",
+    "productName": "3DGS-Fly",
+    "directories": {
+      "buildResources": "build",
+      "output": "release"
+    },
+    "files": [
+      "main.js",
+      "preload.js",
+      "web/**/*"
+    ],
+    "extraResources": [
+      {
+        "from": "rc-n1-bridge.ps1",
+        "to": "rc-n1-bridge.ps1"
+      }
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ]
+    },
+    "portable": {
+      "artifactName": "3DGS-Fly-v${version}.exe"
+    },
+    "nsis": {
+      "artifactName": "3DGS-Fly-Setup.exe",
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    }
+  }
+}
